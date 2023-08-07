@@ -3,8 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>appId</key>
-	<string>E6wZOsZD4sGW8youqKlTVy5U</string>
+	<string>YOUR_APP_ID</string>
 	<key>authOrigin</key>
-	<string>try.passage.id</string>
+	<string>YOUR_AUTH_ORIGIN</string>
 </dict>
 </plist>
