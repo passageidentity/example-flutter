@@ -1,0 +1,33 @@
+PODS:
+  - Flutter (1.0.0)
+  - Passage (1.1.6):
+    - SwiftKeychainWrapper
+  - passage_flutter (0.0.1):
+    - Flutter
+    - Passage (= 1.1.6)
+  - SwiftKeychainWrapper (4.0.1)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - passage_flutter (from `.symlinks/plugins/passage_flutter/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Passage
+    - SwiftKeychainWrapper
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  passage_flutter:
+    :path: ".symlinks/plugins/passage_flutter/ios"
+
+SPEC CHECKSUMS:
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Passage: bb0e8d955b99195c2f53946c70aa389bac94a2ef
+  passage_flutter: 4e89aae1ba1bf1189ec9cf129a2156a3a4c81723
+  SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
+
+PODFILE CHECKSUM: 4c438addb11b6da45ed7ae408823d68256222460
+
+COCOAPODS: 1.12.1
