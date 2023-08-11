@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'state/passage_state_container.dart';
 import 'screens/login.dart';
+import 'screens/one_time_passcode.dart';
 import 'screens/welcome.dart';
+import 'state/passage_state_container.dart';
 
 void main() {
-  runApp(const PassageStateContainer(child: PassageExampleApp()));
+  runApp(const MaterialApp(
+      home: PassageStateContainer(child: PassageExampleApp())));
 }
 
 class PassageExampleApp extends StatefulWidget {
@@ -26,16 +28,25 @@ class _PassageExampleAppState extends State<PassageExampleApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Passage Example App'),
-          backgroundColor: Colors.grey.shade600,
-        ),
-        body: (_passageState.currentUser == null
-            ? const LoginWidget()
-            : const WelcomeWidget()),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Passage Example App'),
+        backgroundColor: Colors.grey.shade600,
       ),
+      body: () {
+        switch (_passageState.authState) {
+          case AuthState.unauthenticated:
+            return const LoginWidget();
+          case AuthState.awaitingLoginVerificationOTP:
+          case AuthState.awaitingRegisterVerificationOTP:
+            return const OTPWidget();
+          // magic link widget here
+          case AuthState.authenticated:
+            return const WelcomeWidget();
+          default:
+            return const LoginWidget();
+        }
+      }(),
     );
   }
 }

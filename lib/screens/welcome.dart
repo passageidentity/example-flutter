@@ -32,13 +32,13 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
               elevation: 0,
             ),
             onPressed: () {
-              // add passkey
+              state.addPasskey();
             },
             child: const Text('Add passkey'),
           ),
           TextButton(
               onPressed: () {
-                // sign out
+                state.signOut();
               },
               child: const Text('Sign out'))
         ],
