@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'screens/login.dart';
+import 'screens/magic_link.dart';
 import 'screens/one_time_passcode.dart';
 import 'screens/welcome.dart';
 import 'state/passage_state_container.dart';
@@ -40,7 +41,9 @@ class _PassageExampleAppState extends State<PassageExampleApp> {
           case AuthState.awaitingLoginVerificationOTP:
           case AuthState.awaitingRegisterVerificationOTP:
             return const OTPWidget();
-          // magic link widget here
+          case AuthState.awaitingLoginVerificationMagicLink:
+          case AuthState.awaitingRegisterVerificationMagicLink:
+            return const MagicLinkWidget();
           case AuthState.authenticated:
             return const WelcomeWidget();
           default:

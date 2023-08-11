@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:passage_flutter/passage_flutter.dart';
 import 'package:passage_flutter/passage_flutter_models/passage_user.dart';
 
@@ -15,7 +16,7 @@ enum AuthState {
 // TODO: Move this into SDK
 enum AllowedFallbackAuth {
   otp,
-  magic_link,
+  magicLink,
 }
 
 class PassageStateContainer extends StatefulWidget {
@@ -40,6 +41,7 @@ class PassageState extends State<PassageStateContainer> {
   String? userIdentifer;
   String? authFallbackId;
   AuthState authState = AuthState.unauthenticated;
+  Timer? timer;
   late PassageFlutter _passage;
 
   @override
@@ -117,8 +119,9 @@ class PassageState extends State<PassageStateContainer> {
           userIdentifer = identifier;
         });
       } else if (appInfo?.authFallbackMethod ==
-          AllowedFallbackAuth.magic_link.name) {
+          AllowedFallbackAuth.magicLink.name) {
         final magicLinkId = await _passage.newRegisterMagicLink(identifier);
+        _setMagicLinkCheckTimer(magicLinkId);
         setState(() {
           authFallbackId = magicLinkId;
           authState = AuthState.awaitingRegisterVerificationMagicLink;
@@ -141,8 +144,9 @@ class PassageState extends State<PassageStateContainer> {
           userIdentifer = identifier;
         });
       } else if (appInfo?.authFallbackMethod ==
-          AllowedFallbackAuth.magic_link.name) {
+          AllowedFallbackAuth.magicLink.name) {
         final magicLinkId = await _passage.newLoginMagicLink(identifier);
+        _setMagicLinkCheckTimer(magicLinkId);
         setState(() {
           authFallbackId = magicLinkId;
           authState = AuthState.awaitingLoginVerificationMagicLink;
@@ -180,10 +184,12 @@ class PassageState extends State<PassageStateContainer> {
     }
   }
 
-  Future<void> checkMagicLink(String? magicLinkId) async {
+  Future<void> _checkMagicLink(String? magicLinkId) async {
     try {
       final authResult = await _passage.getMagicLinkStatus(magicLinkId!);
       if (authResult != null) {
+        timer?.cancel();
+        timer = null;
         final user = await _passage.getCurrentUser();
         _setUser(user);
       }
@@ -199,6 +205,7 @@ class PassageState extends State<PassageStateContainer> {
       final newMagicLinkId = isNewUser
           ? await _passage.newRegisterMagicLink(userIdentifer!)
           : await _passage.newLoginMagicLink(userIdentifer!);
+      _setMagicLinkCheckTimer(newMagicLinkId);
       setState(() {
         authFallbackId = newMagicLinkId;
       });
@@ -231,6 +238,12 @@ class PassageState extends State<PassageStateContainer> {
   Future<void> signOut() async {
     _setUser(null);
     await _passage.signOut();
+  }
+
+  void _setMagicLinkCheckTimer(String magicLinkId) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      _checkMagicLink(magicLinkId);
+    });
   }
 
   void presentAlert(String title, String message) {
