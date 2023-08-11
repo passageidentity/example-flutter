@@ -57,7 +57,6 @@ class PassageState extends State<PassageStateContainer> {
   }
 
   void _checkForAuthenticatedUser() async {
-    // if (kIsWeb) return; // TODO: Fix Flutter web current user bug.
     final user = await _passage.getCurrentUser();
     _setUser(user);
   }
@@ -81,8 +80,8 @@ class PassageState extends State<PassageStateContainer> {
       await _passage.register(identifier);
       final user = await _passage.getCurrentUser();
       _setUser(user);
-    } catch (e) {
-      print(e);
+    } catch (error) {
+      debugPrint(error.toString());
       if (identifier.isNotEmpty) {
         await _fallbackRegister(identifier);
       }
@@ -90,7 +89,6 @@ class PassageState extends State<PassageStateContainer> {
   }
 
   void login(String identifier) async {
-    // print(identifier);
     try {
       if (kIsWeb) {
         await _passage.loginWithIdentifier(identifier);
@@ -100,8 +98,8 @@ class PassageState extends State<PassageStateContainer> {
 
       final user = await _passage.getCurrentUser();
       _setUser(user);
-    } catch (e) {
-      print(e);
+    } catch (error) {
+      debugPrint(error.toString());
       if (identifier.isNotEmpty) {
         await _fallbackLogin(identifier);
       }
@@ -129,7 +127,7 @@ class PassageState extends State<PassageStateContainer> {
         });
       }
     } catch (error) {
-      print(error);
+      debugPrint(error.toString());
     }
   }
 
@@ -154,7 +152,7 @@ class PassageState extends State<PassageStateContainer> {
         });
       }
     } catch (error) {
-      print(error);
+      debugPrint(error.toString());
     }
   }
 
@@ -164,7 +162,7 @@ class PassageState extends State<PassageStateContainer> {
       final user = await _passage.getCurrentUser();
       _setUser(user);
     } catch (error) {
-      print(error);
+      debugPrint(error.toString());
       presentAlert('Problem with passcode', 'Please try again');
     }
   }
@@ -179,7 +177,7 @@ class PassageState extends State<PassageStateContainer> {
         authFallbackId = newOtpId;
       });
     } catch (error) {
-      print(error);
+      debugPrint(error.toString());
       presentAlert('Problem resending passcode', 'Please try again');
     }
   }
