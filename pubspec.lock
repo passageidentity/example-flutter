@@ -75,6 +75,11 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   js:
     dependency: transitive
     description:
@@ -115,6 +120,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  passage_flutter:
+    dependency: "direct main"
+    description:
+      path: "../passage_flutter"
+      relative: true
+    source: path
+    version: "0.0.1"
   path:
     dependency: transitive
     description:
@@ -123,6 +135,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+  plugin_platform_interface:
+    dependency: transitive
+    description:
+      name: plugin_platform_interface
+      sha256: "43798d895c929056255600343db8f049921cbec94d31ec87f1dc5c16c01935dd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.5"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -186,3 +206,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=3.0.6 <4.0.0"
+  flutter: ">=3.3.0"
