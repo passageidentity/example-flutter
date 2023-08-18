@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '/state/passage_state_container.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -26,13 +27,15 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var label = _passageState.isNewUser ? 'Register' : 'Login';
-    var switchLabel =
-        '${!_passageState.isNewUser ? 'Register' : 'Login'} instead';
+    final label = _passageState.isNewUser ? 'Register' : 'Login';
+    final switchLabel = !_passageState.isNewUser
+        ? 'Don\'t have an account? Register'
+        : 'Already have an account? Log in';
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.only(left: 14, top: 32, right: 14),
+          // padding: const EdgeInsets.all(12),
           child: Column(
             children: [
               Text(
@@ -40,39 +43,48 @@ class _LoginWidgetState extends State<LoginWidget> {
                 style:
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 400,
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'example@passage.id',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                    textCapitalization: TextCapitalization.none,
+              const SizedBox(height: 12),
+              SizedBox(
+                width: 400,
+                child: TextField(
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'example@passage.id',
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 14.0, horizontal: 10.0),
                   ),
+                  keyboardType: TextInputType.emailAddress,
+                  autocorrect: false,
+                  textCapitalization: TextCapitalization.none,
                 ),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff3D53F6),
-                  elevation: 0,
+              const SizedBox(height: 12),
+              SizedBox(
+                width: 400,
+                height: 48,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff3D53F6),
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    if (_passageState.isNewUser) {
+                      _passageState.register(_controller.text);
+                    } else {
+                      _passageState.login(_controller.text);
+                    }
+                  },
+                  child: Text(label),
                 ),
-                onPressed: () {
-                  if (_passageState.isNewUser) {
-                    _passageState.register(_controller.text);
-                  } else {
-                    _passageState.login(_controller.text);
-                  }
-                },
-                child: Text(label),
               ),
+              const SizedBox(height: 6.0),
               TextButton(
-                  onPressed: _passageState.toggleIsNewUser,
-                  child: Text(switchLabel))
+                onPressed: _passageState.toggleIsNewUser,
+                style: TextButton.styleFrom(
+                    foregroundColor: const Color(0xff3D53F6)),
+                child: Text(switchLabel),
+              ),
             ],
           ),
         ),

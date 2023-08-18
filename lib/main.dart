@@ -31,8 +31,8 @@ class _PassageExampleAppState extends State<PassageExampleApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Passage Example App'),
-        backgroundColor: Colors.grey.shade600,
+        title: const Text('Example App'),
+        backgroundColor: const Color(0xff3D53F6),
       ),
       body: () {
         switch (_passageState.authState) {
