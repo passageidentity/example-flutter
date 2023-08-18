@@ -35,7 +35,6 @@ class _LoginWidgetState extends State<LoginWidget> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.only(left: 14, top: 32, right: 14),
-          // padding: const EdgeInsets.all(12),
           child: Column(
             children: [
               Text(
