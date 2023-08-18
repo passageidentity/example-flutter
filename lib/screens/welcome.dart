@@ -33,7 +33,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
             Text(
               state.currentUser?.email ?? state.currentUser?.phone ?? '',
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 18),
             const Text(
               'Passkeys:',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
@@ -49,10 +49,10 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return const Divider();
+                return const SizedBox(height: 8.0);
               },
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 18),
             SizedBox(
               width: 400,
               height: 48,

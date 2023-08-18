@@ -21,31 +21,34 @@ class _MagicLinkWidgetState extends State<MagicLinkWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(left: 14, top: 32, right: 14),
-        child: Column(
-          children: [
-            Text(
-              'Check email to ${state.isNewUser ? 'register' : 'log in'}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'A one-time link has been sent to\n${state.userIdentifer}\nYou will be logged in here once you click that link.',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-                height: 1.5,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 14, top: 32, right: 14),
+          child: Column(
+            children: [
+              Text(
+                'Check email to ${state.isNewUser ? 'register' : 'log in'}',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
-            const SizedBox(height: 12),
-            TextButton(
-                onPressed: () {
-                  state.resendMagicLink();
-                },
-                child: const Text('Resend link'))
-          ],
+              const SizedBox(height: 12),
+              Text(
+                'A one-time link has been sent to\n${state.userIdentifer}\nYou will be logged in here once you click that link.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextButton(
+                  onPressed: () {
+                    state.resendMagicLink();
+                  },
+                  child: const Text('Resend link'))
+            ],
+          ),
         ),
       ),
     );
