@@ -176,6 +176,7 @@ class PassageState extends State<PassageStateContainer> {
       setState(() {
         authFallbackId = newOtpId;
       });
+      presentAlert('Success', 'Code resent');
     } catch (error) {
       debugPrint(error.toString());
       presentAlert('Problem resending passcode', 'Please try again');
@@ -229,6 +230,7 @@ class PassageState extends State<PassageStateContainer> {
       final user = await _passage.getCurrentUser();
       _setUser(user);
     } catch (error) {
+      debugPrint(error.toString());
       presentAlert('Problem adding passkey', 'Please try again.');
     }
   }
