@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:passage_flutter/passage_flutter_models/passage_error_code.dart';
 import 'dart:async';
 import 'package:passage_flutter/passage_flutter.dart';
+import 'package:passage_flutter/passage_flutter_models/passage_app_info.dart';
+import 'package:passage_flutter/passage_flutter_models/passage_error.dart';
 import 'package:passage_flutter/passage_flutter_models/passage_user.dart';
 
 enum AuthState {
@@ -11,12 +14,6 @@ enum AuthState {
   awaitingRegisterVerificationOTP,
   awaitingRegisterVerificationMagicLink,
   authenticated,
-}
-
-// TODO: Move this into SDK
-enum AllowedFallbackAuth {
-  otp,
-  magicLink,
 }
 
 class PassageStateContainer extends StatefulWidget {
@@ -59,6 +56,9 @@ class PassageState extends State<PassageStateContainer> {
   void _checkForAuthenticatedUser() async {
     final user = await _passage.getCurrentUser();
     _setUser(user);
+    if (user == null) {
+      _passage.signOut();
+    }
   }
 
   void toggleIsNewUser() {
@@ -81,8 +81,11 @@ class PassageState extends State<PassageStateContainer> {
       final user = await _passage.getCurrentUser();
       _setUser(user);
     } catch (error) {
-      debugPrint(error.toString());
-      if (identifier.isNotEmpty) {
+      if (error is PassageError &&
+          error.code == PassageErrorCode.userCancelled) {
+        // User cancelled passkey prompt, do nothing.
+      } else if (identifier.isNotEmpty) {
+        debugPrint(error.toString());
         await _fallbackRegister(identifier);
       }
     }
@@ -95,12 +98,14 @@ class PassageState extends State<PassageStateContainer> {
       } else {
         await _passage.login();
       }
-
       final user = await _passage.getCurrentUser();
       _setUser(user);
     } catch (error) {
-      debugPrint(error.toString());
-      if (identifier.isNotEmpty) {
+      if (error is PassageError &&
+          error.code == PassageErrorCode.userCancelled) {
+        // User cancelled passkey prompt, do nothing.
+      } else if (identifier.isNotEmpty) {
+        debugPrint(error.toString());
         await _fallbackLogin(identifier);
       }
     }
@@ -109,7 +114,7 @@ class PassageState extends State<PassageStateContainer> {
   Future<void> _fallbackRegister(String identifier) async {
     try {
       final appInfo = await _passage.getAppInfo();
-      if (appInfo?.authFallbackMethod == AllowedFallbackAuth.otp.name) {
+      if (appInfo?.authFallbackMethod == PassageAuthFallbackMethod.otp) {
         final otpId = await _passage.newRegisterOneTimePasscode(identifier);
         setState(() {
           authFallbackId = otpId;
@@ -117,7 +122,7 @@ class PassageState extends State<PassageStateContainer> {
           userIdentifer = identifier;
         });
       } else if (appInfo?.authFallbackMethod ==
-          AllowedFallbackAuth.magicLink.name) {
+          PassageAuthFallbackMethod.magicLink) {
         final magicLinkId = await _passage.newRegisterMagicLink(identifier);
         _setMagicLinkCheckTimer(magicLinkId);
         setState(() {
@@ -134,7 +139,7 @@ class PassageState extends State<PassageStateContainer> {
   Future<void> _fallbackLogin(String identifier) async {
     try {
       final appInfo = await _passage.getAppInfo();
-      if (appInfo?.authFallbackMethod == AllowedFallbackAuth.otp.name) {
+      if (appInfo?.authFallbackMethod == PassageAuthFallbackMethod.otp) {
         final otpId = await _passage.newLoginOneTimePasscode(identifier);
         setState(() {
           authFallbackId = otpId;
@@ -142,7 +147,7 @@ class PassageState extends State<PassageStateContainer> {
           userIdentifer = identifier;
         });
       } else if (appInfo?.authFallbackMethod ==
-          AllowedFallbackAuth.magicLink.name) {
+          PassageAuthFallbackMethod.magicLink) {
         final magicLinkId = await _passage.newLoginMagicLink(identifier);
         _setMagicLinkCheckTimer(magicLinkId);
         setState(() {
