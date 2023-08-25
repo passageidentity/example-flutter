@@ -38,9 +38,29 @@ To get this example Flutter app working with your Passage account/app, you'll ne
 ### iOS
 In the `Passage.plist` file ([found here](https://github.com/passageidentity/example-flutter/blob/main/ios/Runner/Passage.plist)) replace `YOUR_APP_ID` and `YOUR_AUTH_ORIGIN` with your app’s Passage app id and auth origin, respectively.
 
-<img width="600" alt="Passage.plist screenshot" src="https://storage.googleapis.com/passage-docs/passage-ios-plist.png">
-Also, you'll need to open up Xcode and replace `YOUR_AUTH_ORIGIN` in the Associated Domains section.
-<img width="600" alt="Passage iOS entitlement setup" src="https://storage.googleapis.com/passage-docs/passage-ios-entitlements.png">
+```xml
+<plist version="1.0">
+  <dict>
+    <key>appId</key>
+    <string>YOUR_APP_ID</string>
+    <key>authOrigin</key>
+    <string>YOUR_AUTH_ORIGIN</string>
+  </dict>
+</plist>
+```
+
+Also, you'll need to replace `YOUR_AUTH_ORIGIN` in the Associated Domains file ([found here](https://github.com/passageidentity/example-flutter/blob/main/ios/Runner/Runner.entitlements)).
+```xml
+<plist version="1.0">
+  <dict>
+    <key>com.apple.developer.associated-domains</key>
+    <array>
+      <string>webcredentials:YOUR_APP_ID</string>
+      <string>applinks:YOUR_APP_ID</string>
+    </array>
+  </dict>
+</plist>
+```
 
 ### Android
 
@@ -67,7 +87,8 @@ In the `index.html` file ([found here](https://github.com/passageidentity/exampl
   window.passageAppId = "YOUR_APP_ID";
 </script>
 ```
-TODO: Add localhost/auth origin setup info!
+
+Lastly, when you're running the web app locally you'll want to make sure your [Passage app auth origin](https://docs.passage.id/console-administration/apps#app-core-settings) and [Flutter web app port](https://www.kindacode.com/snippet/how-to-run-flutter-web-with-a-custom-port/) are set to the same localhost.
 
 
 ## 🚀 Run the app!
