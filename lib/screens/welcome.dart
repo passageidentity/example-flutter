@@ -44,7 +44,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
               itemCount: state.currentUser?.webauthnDevices.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 return Text(
-                  state.currentUser?.webauthnDevices[index]?.friendlyName,
+                  state.currentUser?.webauthnDevices[index].friendlyName ?? '',
                   textAlign: TextAlign.center,
                 );
               },
