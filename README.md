@@ -55,8 +55,8 @@ Also, you'll need to replace `YOUR_AUTH_ORIGIN` in the Associated Domains file (
   <dict>
     <key>com.apple.developer.associated-domains</key>
     <array>
-      <string>webcredentials:YOUR_APP_ID</string>
-      <string>applinks:YOUR_APP_ID</string>
+      <string>webcredentials:YOUR_AUTH_ORIGIN</string>
+      <string>applinks:YOUR_AUTH_ORIGIN</string>
     </array>
   </dict>
 </plist>
