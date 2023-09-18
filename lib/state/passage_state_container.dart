@@ -44,7 +44,7 @@ class PassageState extends State<PassageStateContainer> {
   @override
   void initState() {
     super.initState();
-    _passage = PassageFlutter();
+    _passage = PassageFlutter('YOUR_APP_ID');
     _checkForAuthenticatedUser();
   }
 

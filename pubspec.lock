@@ -116,10 +116,10 @@ packages:
     dependency: "direct main"
     description:
       name: passage_flutter
-      sha256: "240b3c45887f9b305880e98fb4b294c2235ac45444d763e98583c4df71a9010d"
+      sha256: b157467a88fdfda49b3d1aac28fb753d039b96bacd2f7a5aac45ae661d196140
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.2.0"
   path:
     dependency: transitive
     description:
@@ -132,10 +132,10 @@ packages:
     dependency: transitive
     description:
       name: plugin_platform_interface
-      sha256: "43798d895c929056255600343db8f049921cbec94d31ec87f1dc5c16c01935dd"
+      sha256: da3fdfeccc4d4ff2da8f8c556704c08f912542c5fb3cf2233ed75372384a034d
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   sky_engine:
     dependency: transitive
     description: flutter
