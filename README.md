@@ -32,24 +32,11 @@ flutter pub add passage_flutter
 <br>
 
 ## Configuration
-To get this example Flutter app working with your Passage account/app, you'll need to swap out the placeholder app id and authentication origin with your own. Learn more about Passage app ids and auth origins [here](https://docs.passage.id/console-administration/apps#app-core-settings).
+To get this example Flutter app working with your Passage account/app, you'll need to swap out the placeholder authentication origin with your own. Learn more about Passage auth origins [here](https://docs.passage.id/console-administration/apps#app-core-settings).
 
 
 ### iOS
-In the `Passage.plist` file ([found here](https://github.com/passageidentity/example-flutter/blob/main/ios/Runner/Passage.plist)) replace `YOUR_APP_ID` and `YOUR_AUTH_ORIGIN` with your app’s Passage app id and auth origin, respectively.
-
-```xml
-<plist version="1.0">
-  <dict>
-    <key>appId</key>
-    <string>YOUR_APP_ID</string>
-    <key>authOrigin</key>
-    <string>YOUR_AUTH_ORIGIN</string>
-  </dict>
-</plist>
-```
-
-Also, you'll need to replace `YOUR_AUTH_ORIGIN` in the Associated Domains file ([found here](https://github.com/passageidentity/example-flutter/blob/main/ios/Runner/Runner.entitlements)).
+You'll need to replace `YOUR_AUTH_ORIGIN` in the Associated Domains file ([found here](https://github.com/passageidentity/example-flutter/blob/main/ios/Runner/Runner.entitlements)).
 ```xml
 <plist version="1.0">
   <dict>
@@ -64,12 +51,11 @@ Also, you'll need to replace `YOUR_AUTH_ORIGIN` in the Associated Domains file (
 
 ### Android
 
-In the `strings.xml` file ([found here](https://github.com/passageidentity/example-flutter/blob/main/android/app/src/main/res/values/strings.xml)) replace `YOUR_APP_ID` and `YOUR_AUTH_ORIGIN` with your app’s Passage app id and auth origin, respectively.
+In the `strings.xml` file ([found here](https://github.com/passageidentity/example-flutter/blob/main/android/app/src/main/res/values/strings.xml)) replace `YOUR_AUTH_ORIGIN` with your app’s auth origin.
 
 ```xml
 <resources>
     <!-- Required Passage app settings -->
-    <string name="passage_app_id">YOUR_APP_ID</string> 
     <string name="passage_auth_origin">YOUR_APP_ORIGIN</string>
     ...
 </resources>
@@ -77,18 +63,15 @@ In the `strings.xml` file ([found here](https://github.com/passageidentity/exam
 
 ### Web
 
-In the `index.html` file ([found here](https://github.com/passageidentity/example-flutter/blob/main/web/index.html)) replace `YOUR_APP_ID` with your app's Passage app id.
+When you're running the web app locally you'll want to make sure your [Passage app auth origin](https://docs.passage.id/console-administration/apps#app-core-settings) and [Flutter web app port](https://www.kindacode.com/snippet/how-to-run-flutter-web-with-a-custom-port/) are set to the same localhost.
 
-```html
-<!-- This script adds the Passage -->
-<script type="module">
-  import { Passage } from "https://cdn.passage.id/passage-js.js";
-  window.Passage = Passage;
-  window.passageAppId = "YOUR_APP_ID";
-</script>
+
+### Final step
+Lastly, replace `YOUR_APP_ID` in the `passage_state_container.dart` file [here](https://github.com/passageidentity/example-flutter/blob/main/lib/state/passage_state_container.dart).
+
+```dart
+_passage = PassageFlutter('YOUR_APP_ID');
 ```
-
-Lastly, when you're running the web app locally you'll want to make sure your [Passage app auth origin](https://docs.passage.id/console-administration/apps#app-core-settings) and [Flutter web app port](https://www.kindacode.com/snippet/how-to-run-flutter-web-with-a-custom-port/) are set to the same localhost.
 
 
 ## 🚀 Run the app!
