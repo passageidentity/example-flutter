@@ -69,12 +69,12 @@ class _OTPWidgetState extends State<OTPWidget> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff3D53F6),
-                    elevation: 0,
+                    elevation: 0,      
                   ),
                   onPressed: () {
                     state.activateOTP('${_controller.text}');
                   },
-                  child: const Text('Continue'),
+                  child: const Text('Continue', style : TextStyle(color: Colors.white)),
                 ),
               ),
               TextButton(

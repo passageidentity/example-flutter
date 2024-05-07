@@ -59,24 +59,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
               ),
               const SizedBox(height: 12),
-              SizedBox(
-                width: 400,
-                height: 48,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff3D53F6),
-                    elevation: 0,
-                  ),
-                  onPressed: () {
-                    if (_passageState.isNewUser) {
-                      _passageState.register(_controller.text);
-                    } else {
-                      _passageState.login(_controller.text);
-                    }
-                  },
-                  child: Text(label),
-                ),
-              ),
+              customButton(label,  _passageState, _controller, "passkeys"),
+              const SizedBox(height: 6.0),
+              customButton(label,  _passageState, _controller, "magiccode"),
+              const SizedBox(height: 6.0),
+              customButton(label,  _passageState, _controller, "magiclink"),
               const SizedBox(height: 6.0),
               TextButton(
                 onPressed: _passageState.toggleIsNewUser,
@@ -90,4 +77,32 @@ class _LoginWidgetState extends State<LoginWidget> {
       ),
     );
   }
+
+
+  Widget customButton(String label, PassageState _passageState, TextEditingController _controller, String type) {
+  return SizedBox(
+    width: 400,
+    height: 48,
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        textStyle: TextStyle(color: Colors.white), // background color// text color
+        elevation: 0,
+        backgroundColor:const Color(0xff3D53F6) ,
+        shape: RoundedRectangleBorder( // rounded corners
+          borderRadius: BorderRadius.circular(10),
+        ),// inner padding
+      ),
+      onPressed: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
+        if (_passageState.isNewUser) {
+             _passageState.register(_controller.text, type);
+        } else {
+             _passageState.login(_controller.text, type);
+        }
+      },
+      child: Text("$label with $type", style: TextStyle(color: Colors.white)),
+    ),
+  );
+}
+
 }

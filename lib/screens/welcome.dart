@@ -41,10 +41,10 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: state.currentUser?.webauthnDevices.length ?? 0,
+              itemCount: state.currentUser!.webauthnDevices?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 return Text(
-                  state.currentUser?.webauthnDevices[index].friendlyName ?? '',
+                  state.currentUser?.webauthnDevices?[index].friendlyName ?? '',
                   textAlign: TextAlign.center,
                 );
               },
@@ -64,7 +64,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                 onPressed: () {
                   state.addPasskey();
                 },
-                child: const Text('Add passkey'),
+                child: const Text('Add passkey', style : TextStyle(color: Colors.white)),
               ),
             ),
             TextButton(
