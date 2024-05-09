@@ -41,7 +41,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: state.currentUser!.webauthnDevices?.length ?? 0,
+              itemCount: state.currentUser?.webauthnDevices?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 return Text(
                   state.currentUser?.webauthnDevices?[index].friendlyName ?? '',

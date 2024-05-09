@@ -59,12 +59,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
               ),
               const SizedBox(height: 12),
-              customButton(label,  _passageState, _controller, "passkeys"),
+              authButton(label,  _passageState, _controller, "passkeys"),
               const SizedBox(height: 6.0),
-              customButton(label,  _passageState, _controller, "magiccode"),
+              authButton(label,  _passageState, _controller, "magiccode"),
               const SizedBox(height: 6.0),
-              customButton(label,  _passageState, _controller, "magiclink"),
-              const SizedBox(height: 6.0),
+              authButton(label,  _passageState, _controller, "magiclink"),
               TextButton(
                 onPressed: _passageState.toggleIsNewUser,
                 style: TextButton.styleFrom(
@@ -79,7 +78,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
 
-  Widget customButton(String label, PassageState _passageState, TextEditingController _controller, String type) {
+  Widget authButton(String label, PassageState _passageState, TextEditingController _controller, String type) {
   return SizedBox(
     width: 400,
     height: 48,

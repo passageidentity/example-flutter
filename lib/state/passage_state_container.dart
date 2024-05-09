@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:passage_flutter/passage_flutter_models/passage_error_code.dart';
 import 'dart:async';
 import 'package:passage_flutter/passage_flutter.dart';
-import 'package:passage_flutter/passage_flutter_models/passage_app_info.dart';
 import 'package:passage_flutter/passage_flutter_models/passage_error.dart';
 import 'package:passage_flutter/passage_flutter_models/passage_user.dart';
 
@@ -13,8 +12,7 @@ enum AuthState {
   awaitingLoginVerificationMagicLink,
   awaitingRegisterVerificationOTP,
   awaitingRegisterVerificationMagicLink,
-  authenticated,
-  error
+  authenticated
 }
 
 class PassageStateContainer extends StatefulWidget {
@@ -45,7 +43,7 @@ class PassageState extends State<PassageStateContainer> {
   @override
   void initState() {
     super.initState();
-    _passage = PassageFlutter('cslGQjgFp4tfQNUN5e6sGbVc');
+    _passage = PassageFlutter('YOUR_APP_ID');
     _checkForAuthenticatedUser();
   }
 
