@@ -96,11 +96,11 @@ class PassageState extends State<PassageStateContainer> {
           }
         case 'magiclink':
           {
-            final magicLinkId = await _passage.newLoginMagicLink(identifier);
+            final magicLinkId = await _passage.newRegisterMagicLink(identifier);
         _setMagicLinkCheckTimer(magicLinkId);
         setState(() {
           authFallbackId = magicLinkId;
-          authState = AuthState.awaitingLoginVerificationMagicLink;
+          authState = AuthState.awaitingRegisterVerificationMagicLink;
           userIdentifer = identifier;
         });
         break;
@@ -111,6 +111,7 @@ class PassageState extends State<PassageStateContainer> {
     } catch (error) {
       if (error is PassageError &&
           error.code == PassageErrorCode.userCancelled) {
+            // User cancelled passkey prompt, do nothing.
       } else if (identifier.isNotEmpty) {
         debugPrint(error.toString());
         if (error is PassageError) {   
@@ -155,6 +156,7 @@ class PassageState extends State<PassageStateContainer> {
     } catch (error) {
       if (error is PassageError &&
           error.code == PassageErrorCode.userCancelled) {
+            // User cancelled passkey prompt, do nothing.
       } else if (identifier.isNotEmpty) {
         debugPrint(error.toString());
         if (error is PassageError) {   
