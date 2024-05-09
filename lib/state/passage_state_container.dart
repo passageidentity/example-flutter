@@ -81,7 +81,7 @@ class PassageState extends State<PassageStateContainer> {
       switch (type) {
         case 'passkeys': 
         {
-          await _passage.register(identifier);
+          await _passage.registerWithPasskey(identifier);
           final user = await _passage.getCurrentUser();
           _setUser(user);
           break;
@@ -127,7 +127,7 @@ class PassageState extends State<PassageStateContainer> {
       switch (type) {
         case 'passkey': 
         {
-          await _passage.loginWithIdentifier(identifier);
+          await _passage.loginWithPasskey(identifier);
           final user = await _passage.getCurrentUser();
           if (user != null)_setUser(user);
           break;
@@ -163,56 +163,6 @@ class PassageState extends State<PassageStateContainer> {
           presentAlert('Error', error.message.toString());        
         }
       }
-    }
-  }
-
-  Future<void> _fallbackRegister(String identifier) async {
-    try {
-      final appInfo = await _passage.getAppInfo();
-      if (appInfo?.authFallbackMethod == PassageAuthFallbackMethod.otp) {
-        final otpId = await _passage.newRegisterOneTimePasscode(identifier);
-        setState(() {
-          authFallbackId = otpId;
-          authState = AuthState.awaitingRegisterVerificationOTP;
-          userIdentifer = identifier;
-        });
-      } else if (appInfo?.authFallbackMethod ==
-          PassageAuthFallbackMethod.magicLink) {
-        final magicLinkId = await _passage.newRegisterMagicLink(identifier);
-        _setMagicLinkCheckTimer(magicLinkId);
-        setState(() {
-          authFallbackId = magicLinkId;
-          authState = AuthState.awaitingRegisterVerificationMagicLink;
-          userIdentifer = identifier;
-        });
-      }
-    } catch (error) {
-      debugPrint(error.toString());
-    }
-  }
-
-  Future<void> _fallbackLogin(String identifier) async {
-    try {
-      final appInfo = await _passage.getAppInfo();
-      if (appInfo?.authFallbackMethod == PassageAuthFallbackMethod.otp) {
-        final otpId = await _passage.newLoginOneTimePasscode(identifier);
-        setState(() {
-          authFallbackId = otpId;
-          authState = AuthState.awaitingLoginVerificationOTP;
-          userIdentifer = identifier;
-        });
-      } else if (appInfo?.authFallbackMethod ==
-          PassageAuthFallbackMethod.magicLink) {
-        final magicLinkId = await _passage.newLoginMagicLink(identifier);
-        _setMagicLinkCheckTimer(magicLinkId);
-        setState(() {
-          authFallbackId = magicLinkId;
-          authState = AuthState.awaitingLoginVerificationMagicLink;
-          userIdentifer = identifier;
-        });
-      }
-    } catch (error) {
-      debugPrint(error.toString());
     }
   }
 
