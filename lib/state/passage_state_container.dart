@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:passage_flutter/passage_flutter_models/passage_error_code.dart';
 import 'dart:async';
@@ -124,11 +123,11 @@ class PassageState extends State<PassageStateContainer> {
   void login(String identifier, String type) async {
     try {
       switch (type) {
-        case 'passkey': 
+        case 'passkeys': 
         {
           await _passage.loginWithPasskey(identifier);
           final user = await _passage.getCurrentUser();
-          if (user != null)_setUser(user);
+          _setUser(user);
           break;
         }
         case 'magiccode':
