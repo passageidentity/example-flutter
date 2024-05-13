@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:passage_flutter/passage_flutter_models/passage_error_code.dart';
 import 'dart:async';
 import 'package:passage_flutter/passage_flutter.dart';
-import 'package:passage_flutter/passage_flutter_models/passage_app_info.dart';
 import 'package:passage_flutter/passage_flutter_models/passage_error.dart';
 import 'package:passage_flutter/passage_flutter_models/passage_user.dart';
 
@@ -13,7 +11,7 @@ enum AuthState {
   awaitingLoginVerificationMagicLink,
   awaitingRegisterVerificationOTP,
   awaitingRegisterVerificationMagicLink,
-  authenticated,
+  authenticated
 }
 
 class PassageStateContainer extends StatefulWidget {
@@ -75,89 +73,95 @@ class PassageState extends State<PassageStateContainer> {
     });
   }
 
-  void register(String identifier) async {
+  void register(String identifier, String type) async {  
     try {
-      await _passage.register(identifier);
-      final user = await _passage.getCurrentUser();
-      _setUser(user);
-    } catch (error) {
-      if (error is PassageError &&
-          error.code == PassageErrorCode.userCancelled) {
-        // User cancelled passkey prompt, do nothing.
-      } else if (identifier.isNotEmpty) {
-        debugPrint(error.toString());
-        await _fallbackRegister(identifier);
-      }
-    }
-  }
-
-  void login(String identifier) async {
-    try {
-      if (kIsWeb) {
-        await _passage.loginWithIdentifier(identifier);
-      } else {
-        await _passage.login();
-      }
-      final user = await _passage.getCurrentUser();
-      _setUser(user);
-    } catch (error) {
-      if (error is PassageError &&
-          error.code == PassageErrorCode.userCancelled) {
-        // User cancelled passkey prompt, do nothing.
-      } else if (identifier.isNotEmpty) {
-        debugPrint(error.toString());
-        await _fallbackLogin(identifier);
-      }
-    }
-  }
-
-  Future<void> _fallbackRegister(String identifier) async {
-    try {
-      final appInfo = await _passage.getAppInfo();
-      if (appInfo?.authFallbackMethod == PassageAuthFallbackMethod.otp) {
-        final otpId = await _passage.newRegisterOneTimePasscode(identifier);
-        setState(() {
+      switch (type) {
+        case 'Passkeys': 
+        {
+          await _passage.registerWithPasskey(identifier);
+          final user = await _passage.getCurrentUser();
+          _setUser(user);
+          break;
+        }
+        case 'One-Time Passcode':
+          {
+          final otpId = await _passage.newRegisterOneTimePasscode(identifier);
+          setState(() {
           authFallbackId = otpId;
           authState = AuthState.awaitingRegisterVerificationOTP;
           userIdentifer = identifier;
         });
-      } else if (appInfo?.authFallbackMethod ==
-          PassageAuthFallbackMethod.magicLink) {
-        final magicLinkId = await _passage.newRegisterMagicLink(identifier);
-        _setMagicLinkCheckTimer(magicLinkId);
-        setState(() {
+        break;
+          }
+        case 'Magic Link':
+          {
+          final magicLinkId = await _passage.newRegisterMagicLink(identifier);
+          _setMagicLinkCheckTimer(magicLinkId);
+          setState(() {
           authFallbackId = magicLinkId;
           authState = AuthState.awaitingRegisterVerificationMagicLink;
           userIdentifer = identifier;
         });
+        break;
+          }
+          
       }
+      
     } catch (error) {
-      debugPrint(error.toString());
+      if (error is PassageError &&
+          error.code == PassageErrorCode.userCancelled) {
+            // User cancelled passkey prompt, do nothing.
+      } else if (identifier.isNotEmpty) {
+        debugPrint(error.toString());
+        if (error is PassageError) {   
+          presentAlert('Error', error.message.toString());     
+        }
+      }
     }
   }
 
-  Future<void> _fallbackLogin(String identifier) async {
+  void login(String identifier, String type) async {
     try {
-      final appInfo = await _passage.getAppInfo();
-      if (appInfo?.authFallbackMethod == PassageAuthFallbackMethod.otp) {
-        final otpId = await _passage.newLoginOneTimePasscode(identifier);
-        setState(() {
+      switch (type) {
+        case 'Passkeys': 
+        {
+          await _passage.loginWithPasskey(identifier);
+          final user = await _passage.getCurrentUser();
+          _setUser(user);
+          break;
+        }
+        case 'One-Time Passcode':
+          {
+          final otpId = await _passage.newLoginOneTimePasscode(identifier);
+          setState(() {
           authFallbackId = otpId;
           authState = AuthState.awaitingLoginVerificationOTP;
           userIdentifer = identifier;
         });
-      } else if (appInfo?.authFallbackMethod ==
-          PassageAuthFallbackMethod.magicLink) {
-        final magicLinkId = await _passage.newLoginMagicLink(identifier);
-        _setMagicLinkCheckTimer(magicLinkId);
-        setState(() {
+        break;
+          }
+        case 'Magic Link':
+          {
+          final magicLinkId = await _passage.newLoginMagicLink(identifier);
+          _setMagicLinkCheckTimer(magicLinkId);
+          setState(() {
           authFallbackId = magicLinkId;
           authState = AuthState.awaitingLoginVerificationMagicLink;
           userIdentifer = identifier;
         });
+        break;
+          }
       }
     } catch (error) {
-      debugPrint(error.toString());
+      if (error is PassageError &&
+          error.code == PassageErrorCode.userCancelled) {
+            // User cancelled passkey prompt, do nothing.
+      } else if (identifier.isNotEmpty) {
+        debugPrint(error.toString());
+        if (error is PassageError) {   
+          presentAlert('Error', error.message.toString());        
+        }
+      }
     }
   }
 
