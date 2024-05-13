@@ -59,11 +59,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
               ),
               const SizedBox(height: 12),
-              authButton(label,  _passageState, _controller, "passkeys"),
+              authButton(label,  _passageState, _controller, "Passkeys"),
               const SizedBox(height: 6.0),
-              authButton(label,  _passageState, _controller, "magiccode"),
+              authButton(label,  _passageState, _controller, "One-Time Passcode"),
               const SizedBox(height: 6.0),
-              authButton(label,  _passageState, _controller, "magiclink"),
+              authButton(label,  _passageState, _controller, "Magic Link"),
               TextButton(
                 onPressed: _passageState.toggleIsNewUser,
                 style: TextButton.styleFrom(

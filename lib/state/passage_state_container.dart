@@ -76,16 +76,16 @@ class PassageState extends State<PassageStateContainer> {
   void register(String identifier, String type) async {  
     try {
       switch (type) {
-        case 'passkeys': 
+        case 'Passkeys': 
         {
           await _passage.registerWithPasskey(identifier);
           final user = await _passage.getCurrentUser();
           _setUser(user);
           break;
         }
-        case 'magiccode':
+        case 'One-Time Passcode':
           {
-            final otpId = await _passage.newRegisterOneTimePasscode(identifier);
+          final otpId = await _passage.newRegisterOneTimePasscode(identifier);
           setState(() {
           authFallbackId = otpId;
           authState = AuthState.awaitingRegisterVerificationOTP;
@@ -93,11 +93,11 @@ class PassageState extends State<PassageStateContainer> {
         });
         break;
           }
-        case 'magiclink':
+        case 'Magic Link':
           {
-            final magicLinkId = await _passage.newRegisterMagicLink(identifier);
-        _setMagicLinkCheckTimer(magicLinkId);
-        setState(() {
+          final magicLinkId = await _passage.newRegisterMagicLink(identifier);
+          _setMagicLinkCheckTimer(magicLinkId);
+          setState(() {
           authFallbackId = magicLinkId;
           authState = AuthState.awaitingRegisterVerificationMagicLink;
           userIdentifer = identifier;
@@ -123,16 +123,16 @@ class PassageState extends State<PassageStateContainer> {
   void login(String identifier, String type) async {
     try {
       switch (type) {
-        case 'passkeys': 
+        case 'Passkeys': 
         {
           await _passage.loginWithPasskey(identifier);
           final user = await _passage.getCurrentUser();
           _setUser(user);
           break;
         }
-        case 'magiccode':
+        case 'One-Time Passcode':
           {
-            final otpId = await _passage.newLoginOneTimePasscode(identifier);
+          final otpId = await _passage.newLoginOneTimePasscode(identifier);
           setState(() {
           authFallbackId = otpId;
           authState = AuthState.awaitingLoginVerificationOTP;
@@ -140,11 +140,11 @@ class PassageState extends State<PassageStateContainer> {
         });
         break;
           }
-        case 'magiclink':
+        case 'Magic Link':
           {
-            final magicLinkId = await _passage.newLoginMagicLink(identifier);
-        _setMagicLinkCheckTimer(magicLinkId);
-        setState(() {
+          final magicLinkId = await _passage.newLoginMagicLink(identifier);
+          _setMagicLinkCheckTimer(magicLinkId);
+          setState(() {
           authFallbackId = magicLinkId;
           authState = AuthState.awaitingLoginVerificationMagicLink;
           userIdentifer = identifier;
