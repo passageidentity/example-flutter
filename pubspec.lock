@@ -139,10 +139,11 @@ packages:
   passage_flutter:
     dependency: "direct main"
     description:
-      path: "../../passage-flutter"
-      relative: true
-    source: path
-    version: "0.8.2"
+      name: passage_flutter
+      sha256: "27f332b16a1294b42c69b3a0bb8edd83ee6ba9f2c98a557672c095d74f7868a2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
